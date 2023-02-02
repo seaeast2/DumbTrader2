@@ -190,3 +190,16 @@ git_stats/*
 StyleCop.Cache
 bin
 obj
+/DumbDownloader/Migrations
+/.vs/DumbTrader2/DesignTimeBuild/.dtbcache.v2
+/.vs/DumbTrader2/FileContentIndex/6afb8fbe-2ab3-40a4-9fb1-df2377e221ef.vsidx
+/.vs/DumbTrader2/FileContentIndex/8ce9a830-1ef3-4efe-a637-aae0adac5796.vsidx
+/.vs/DumbTrader2/FileContentIndex/93e20866-099b-40d4-bed5-543f9cb456c8.vsidx
+/.vs/DumbTrader2/FileContentIndex/df8c550d-b191-4107-9185-4c26f844edd4.vsidx
+/.vs/DumbTrader2/FileContentIndex/f311c134-ed19-4617-ab14-f137699a852d.vsidx
+/.vs/DumbTrader2/v17/.futdcache.v2
+/.vs/DumbTrader2/v17/workspaceFileList.bin
+/.vs/ProjectEvaluation/dumbtrader2.metadata.v5.2
+/.vs/ProjectEvaluation/dumbtrader2.projects.v5.2
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
