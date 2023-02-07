@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DumbDownloader.Utils
 {
     /// <summary>
-    /// A command whose sole purpose is to 
-    /// relay its functionality to other
-    /// objects by invoking delegates. The
-    /// default return value for the CanExecute
+    /// A command whose sole purpose is to relay its functionality to other
+    /// objects by invoking delegates. The default return value for the CanExecute
     /// method is 'true'.
+    /// 
+    /// 사용례 : ICommand _saveCommand = new RelayCommand(param => this.Save(), param => this.CanSave);
     /// </summary>
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         #region Fields
 
-        readonly Action<object> _execute;
-        readonly Predicate<object> _canExecute;
+        // Action : 리턴값이 없는(void) 함수를 파라메터로 주고 받고 싶을 때.
+        readonly Action<object?>? _execute;
+        // Predicate : 리턴타입이 bool 이고, 입력 매개변수가 무조건 1개일 경우 사용
+        readonly Predicate<object?>? _canExecute;
 
         #endregion // Fields
 
@@ -30,7 +28,7 @@ namespace DumbDownloader.Utils
         /// Creates a new command that can always execute.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
-        public RelayCommand(Action<object> execute)
+        public RelayCommand(Action<object?>? execute)
             : this(execute, null)
         {
         }
@@ -40,7 +38,7 @@ namespace DumbDownloader.Utils
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object?>? execute, Predicate<object?>? canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");
@@ -52,24 +50,26 @@ namespace DumbDownloader.Utils
         #endregion // Constructors
 
         #region ICommand Members
+        public event EventHandler? CanExecuteChanged;
+        /*{
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }*/
+        protected void OnCanExecutedChanged()
+        {
+            CanExecuteChanged?.Invoke(this, new EventArgs());
+        }
 
         [DebuggerStepThrough]
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object? parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
         }
 
-        public event EventHandler? CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public void Execute(object parameter)
+        public virtual void Execute(object? parameter)
         {
             _execute(parameter);
         }
-
         #endregion // ICommand Members
     }
 }
