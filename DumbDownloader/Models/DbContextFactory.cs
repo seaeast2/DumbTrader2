@@ -19,6 +19,7 @@ namespace DumbDownloader.Models
         public MyDBContext CreateDbContext()
         {
             DbContextOptions options = new DbContextOptionsBuilder().UseMySql(connectionString_, ServerVersion.AutoDetect(connectionString_)).Options;
+
             return new MyDBContext(options);
         }
     }

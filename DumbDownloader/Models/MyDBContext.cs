@@ -10,15 +10,20 @@ namespace DumbDownloader.Models
 {
     public class MyDBContext : DbContext
     {
-        public DbSet<DBTestDTO> DBTests { get; set; }
+        // database 에 접근 객체
+        //public DbSet<DBTestDTO> StockDaily { get; set; }
 
-        public MyDBContext(DbContextOptions options) : base(options)
-        {
+        // 주식 종목
+        public DbSet<t8430_DTO> Stocks { get; set; }
 
-        }
+        public MyDBContext(DbContextOptions options) : base(options) { }
 
-        /*private string connectionString = "server=localhost;port=3306;database=wpf_stock_test;user=seaeast2;password=12345";
 
+
+
+        /* 
+        // MySQL or Mariadb 초기화 문자열
+        private string connectionString = "server=localhost;port=3306;database=wpf_stock_test;user=seaeast2;password=123456";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

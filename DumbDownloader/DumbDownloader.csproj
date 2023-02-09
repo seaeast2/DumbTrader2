@@ -14,9 +14,11 @@
     <Folder Include="Commands\" />
     <Folder Include="Images\" />
     <Folder Include="Services\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.13">
       <PrivateAssets>all</PrivateAssets>

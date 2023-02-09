@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -73,7 +74,7 @@ namespace DumbDownloader.ViewModels
         /// <summary>
         /// Raised when a property on this object has a new value.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Raises this object's PropertyChanged event.
@@ -83,7 +84,7 @@ namespace DumbDownloader.ViewModels
         {
             this.VerifyPropertyName(propertyName);
 
-            PropertyChangedEventHandler handler = this.PropertyChanged;
+            PropertyChangedEventHandler? handler = this.PropertyChanged;
             if (handler != null)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
@@ -110,6 +111,7 @@ namespace DumbDownloader.ViewModels
         /// </summary>
         protected virtual void OnDispose()
         {
+
         }
 
 #if DEBUG
