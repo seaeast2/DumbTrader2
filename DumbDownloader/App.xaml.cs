@@ -1,11 +1,5 @@
 ﻿using DumbDownloader.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DumbDownloader
@@ -15,15 +9,15 @@ namespace DumbDownloader
     /// </summary>
     public partial class App : Application
     {
+        public DbContextFactory? dbContextFactory { get; set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-
-
-            /*string connectionString = "server=localhost;port=3306;database=wpf_stock_test;user=seaeast2;password=123456";
-            DbContextOptions options = new DbContextOptionsBuilder().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).Options;
-            MyDBContext dbContext = new MyDBContext(options);
-
-            dbContext.Database.Migrate();*/
+            dbContextFactory = new DbContextFactory(DumbDownloader.Properties.Settings.Default.db_connection);
+            using(MyDBContext dBContext = dbContextFactory.CreateDbContext())
+            {
+                dBContext.Database.Migrate();
+            }
 
             /*MainWindow = new MainWindow()
             {
