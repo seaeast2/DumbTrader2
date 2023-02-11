@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DumbDownloader.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : WorkspaceViewModel
     {
         public override string? DisplayName { get; protected set; }
 
