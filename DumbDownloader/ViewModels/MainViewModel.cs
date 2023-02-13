@@ -10,7 +10,7 @@ namespace DumbDownloader.ViewModels
         public override string? DisplayName { get; protected set; }
 
         //private RelayCommand _loginCommand;
-        private AsyncRelayCommand _loginCommand;
+        private AsyncRelayCommand? _loginCommand;
 
         public MainViewModel(string? displayName)
         {
