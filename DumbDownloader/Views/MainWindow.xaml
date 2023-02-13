@@ -15,7 +15,7 @@
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
             <Menu KeyboardNavigation.TabNavigation="Cycle">
                 <MenuItem Header="로그인">
-                    <MenuItem Header="로그인" Command="{Binding Path=CloseCommand}" />
+                    <MenuItem Header="로그인" Command="{Binding Path=LoginCommand}" />
                     <MenuItem Header="종료" Command="{Binding Path=CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="옵션">

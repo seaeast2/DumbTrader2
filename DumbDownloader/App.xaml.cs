@@ -38,6 +38,8 @@ namespace DumbDownloader
             };
             viewModel.RequestClose += handler;
 
+            window.DataContext = viewModel;
+
             window.Show();
         }
     }
