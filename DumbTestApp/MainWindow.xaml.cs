@@ -1,3 +1,4 @@
+
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -10,7 +11,7 @@ namespace DumbTestApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        //XingAPIService StockDataSource;
+        
 
         public MainWindow()
         {

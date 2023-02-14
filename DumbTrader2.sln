@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumbTrader2", "DumbTrader2\DumbTrader2.csproj", "{AD4E2E99-B22B-4D70-8AB4-9CFAC6277FA5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumbDownloader", "DumbDownloader\DumbDownloader.csproj", "{769641CA-A1B4-4C2B-8EC4-B920F46AA462}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D30F498-3900-48E2-A786-D336F426E668} = {5D30F498-3900-48E2-A786-D336F426E668}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumbStockAPIService", "XingAPIService\DumbStockAPIService.csproj", "{5D30F498-3900-48E2-A786-D336F426E668}"
 EndProject

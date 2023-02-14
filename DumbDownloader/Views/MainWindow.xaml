@@ -62,7 +62,7 @@
             </Grid>
 
             <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
-                
+                <TextBox x:Name="MsgLog" Text="{Binding MessageLog, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
         </Grid>
     </DockPanel>

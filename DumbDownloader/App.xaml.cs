@@ -1,5 +1,6 @@
 ﻿using DumbDownloader.Models;
 using DumbDownloader.ViewModels;
+using DumbStockAPIService.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Windows;
@@ -12,6 +13,8 @@ namespace DumbDownloader
     public partial class App : Application
     {
         public DbContextFactory? dbContextFactory { get; set; }
+
+        
 
         protected override void OnStartup(StartupEventArgs e)
         {

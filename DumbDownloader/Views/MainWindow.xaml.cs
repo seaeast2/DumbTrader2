@@ -20,6 +20,8 @@ namespace DumbDownloader
     /// </summary>
     public partial class MainWindow : Window
     {
+        //XingAPIService StockDataSource;
+
         public MainWindow()
         {
             InitializeComponent();

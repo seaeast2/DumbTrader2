@@ -10,4 +10,17 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
 
+    <!--LogViewer 스타일-->
+    <Style TargetType="ItemsControl" x:Key="LogViewerStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ScrollViewer CanContentScroll="True">
+                        <ItemsPresenter/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
