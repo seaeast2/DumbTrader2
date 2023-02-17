@@ -14,9 +14,10 @@
         <!--메뉴바-->
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
             <Menu KeyboardNavigation.TabNavigation="Cycle">
-                <MenuItem Header="로그인">
+                <MenuItem Header="시작">
                     <MenuItem Header="로그인" Command="{Binding Path=LoginCommand}" />
-                    <MenuItem Header="종료" Command="{Binding Path=CloseCommand}" />
+                    <MenuItem Header="접속종료" Command="{Binding Path=DisconnectCommand}" />
+                    <MenuItem Header="끝내기" Command="{Binding Path=CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="옵션">
                     <MenuItem Header="옵션" Command="{Binding Path=CloseCommand}" />
@@ -29,11 +30,7 @@
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
             <ToolBarTray>
                 <ToolBar Band="1" BandIndex="1" >
-                    <CheckBox>test</CheckBox>
-                    <CheckBox>test</CheckBox>
-                    <CheckBox>test</CheckBox>
-                    <TextBlock>다운로드 시간</TextBlock>
-                    <TextBox>Test</TextBox>
+                    <Button Content="Test" />
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
@@ -54,6 +51,7 @@
 
                 <!--등록 주식 리스트-->
                 <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
+                    
                 </Border>
 
                 <!--선택된 주식의 데이터베이스 최근 20개-->

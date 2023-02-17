@@ -11,6 +11,7 @@ namespace DumbDownloader.ViewModels
         #region 프로퍼티들
         public override string? DisplayName { get; protected set; }
 
+        private int _messageLineCounter = 0;
         private string _messageLog;
         public string MessageLog
         {
@@ -33,13 +34,17 @@ namespace DumbDownloader.ViewModels
 
 
         // RelayCommands
-        //private RelayCommand _loginCommand;
         private AsyncRelayCommand? _loginCommand;
+        private AsyncRelayCommand? _disconnectCommand;
+        
 
 
         public MainViewModel(string? displayName)
         {
             DisplayName = displayName;
+            _messageLog = "";
+
+            StockDataSource = new XingAPIService();
         }
 
         #region Command
@@ -49,43 +54,65 @@ namespace DumbDownloader.ViewModels
             {
                 if (_loginCommand == null)
                     _loginCommand = new AsyncRelayCommand(Login);
+                    //_loginCommand = new RelayCommand(Login);
 
                 return _loginCommand;
+            }
+        }
+
+        public ICommand DisconnectCommand
+        {
+            get
+            {
+                if (_disconnectCommand == null)
+                    _disconnectCommand = new AsyncRelayCommand(Disconnect);
+
+                return _disconnectCommand;
             }
         }
         #endregion
 
         private async Task Login()
         {
-            PrintLog("테스트");
-
-            /*bool result = StockDataSource.Connect(XingAPIService.ServerType.Test);
-
-            if (!result)
+            await Task.Run(() =>
             {
-                PrintLog("접속 실패");
-                return;
-            }
+                bool result = StockDataSource.Connect(XingAPIService.ServerType.Test);
 
-            PrintLog("접속 성공");
+                if (!result)
+                {
+                    PrintLog("접속 실패");
+                    return;
+                }
 
-            if (StockDataSource.IsConnected)
-                PrintLog("접속중 확인 완료");*/
+                PrintLog("접속 성공");
 
+                if (!StockDataSource.IsConnected)
+                    PrintLog("접속 실패");
 
-            /*await Task.Run(() =>
-            {
-                var dialogResult = MessageBox.Show("Message", "Title", MessageBoxButton.OKCancel);
-                if (dialogResult == MessageBoxResult.OK)
-                    MessageBox.Show("OK Clicked");
-                else
-                    MessageBox.Show("Cancel Clicked");
-            });*/
+                PrintLog("로그인 시도");
+                StockDataSource.Login("seaeast2", "mytest01", false);
+                PrintLog("로그인 성공");
+            });
         }
 
-        void PrintLog(string Log = "")
+        private async Task Disconnect()
+        {
+            await Task.Run(() =>
+            {
+                StockDataSource.Disconnect();
+                PrintLog("접속 해제 성공");
+            });
+        }
+
+        public void PrintLog(string Log)
         {
             MessageLog += Log + "\n";
+            _messageLineCounter++;
+            if (_messageLineCounter > 100)
+            {
+                MessageLog = Log;
+                _messageLineCounter = 1;
+            }
         }
     }
 }

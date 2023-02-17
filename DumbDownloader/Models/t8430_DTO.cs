@@ -13,9 +13,10 @@ namespace DumbDownloader.Models
         public string Hname { get; set; } // 종목명
         [Key]
         public string Shcode { get; set; } // 단축코드
-        public string Extcode { get; set; } // 확장코드
-        public string Etfgubun { get; set; } // ETF 구분
-        public string Memedan { get; set; } // 주문수량단위
+        public string Extcode { get; set; } // 확장코드        
         public string Gubun { get; set; } // 구분 (1 : 코스피, 2 : 코스닥)
+
+        public int DataCount { get; set; } // 데이터 개수
+        public DateTime LastUpdate { get; set; } // 마지막 갱신일
     }
 }
