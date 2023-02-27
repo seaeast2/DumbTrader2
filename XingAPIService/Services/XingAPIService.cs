@@ -74,7 +74,10 @@ namespace DumbStockAPIService.Services
                 var ErrMsg = myXASession.GetErrorMessage(ErrCode);
                 string err_log = String.Format("[서버연결] ERR - {0}({1})", ErrMsg, ErrCode);
                 Logger?.Invoke(err_log); // Logger 가 있으면 출력
+                return isConn;
             }
+            
+            Logger?.Invoke("[로그인] 접속성공");
 
             return isConn;
         }
@@ -83,6 +86,7 @@ namespace DumbStockAPIService.Services
         public void Disconnect()
         {
             myXASession.DisconnectServer();
+            Logger?.Invoke("[로그인] 접속해제.");
         }
 
         // 로그인

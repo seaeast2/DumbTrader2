@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DumbStockAPIService.Services;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -30,13 +31,16 @@ namespace DumbDownloader.ViewModels
         #endregion
 
 
-        private XingAPIService StockDataSource;
+        private XingAPIService xingApiService;
 
 
         // RelayCommands
-        private AsyncRelayCommand? _loginCommand;
-        private AsyncRelayCommand? _disconnectCommand;
-        
+        private RelayCommand? _connectCommand;
+        private RelayCommand? _disconnectCommand;
+        private RelayCommand? _loginCommand;
+        private AsyncRelayCommand? _loadStocksCommand;
+        private AsyncRelayCommand? _loadAccountInfoCommand;
+
 
 
         public MainViewModel(string? displayName)
@@ -44,63 +48,123 @@ namespace DumbDownloader.ViewModels
             DisplayName = displayName;
             _messageLog = "";
 
-            StockDataSource = new XingAPIService();
+            xingApiService = new XingAPIService();
+            xingApiService.Logger = PrintLog;
         }
 
         #region Command
-        public ICommand LoginCommand
+        public ICommand ConnectCommand
         {
             get
             {
-                if (_loginCommand == null)
-                    _loginCommand = new AsyncRelayCommand(Login);
-                    //_loginCommand = new RelayCommand(Login);
+                if (_connectCommand == null)
+                    _connectCommand = new RelayCommand(Connect);
 
-                return _loginCommand;
+                return _connectCommand;
             }
         }
+
 
         public ICommand DisconnectCommand
         {
             get
             {
                 if (_disconnectCommand == null)
-                    _disconnectCommand = new AsyncRelayCommand(Disconnect);
+                    _disconnectCommand = new RelayCommand(Disconnect);
 
                 return _disconnectCommand;
             }
         }
-        #endregion
 
-        private async Task Login()
+        public ICommand LoginCommand
+        {
+            get
+            {
+                if (_loginCommand == null)
+                    //_loginCommand = new AsyncRelayCommand(Login);
+                    _loginCommand = new RelayCommand(Login);
+
+                return _loginCommand;
+            }
+        }
+
+        public ICommand LoadStocksCommand
+        {
+            get
+            {
+                if (_loadStocksCommand == null)
+                    _loadStocksCommand = new AsyncRelayCommand(LoadStocks);
+
+                return _loadStocksCommand;
+            }
+        }
+
+        public ICommand LoadAccountInfoCommand
+        {
+            get
+            {
+                if (_loadAccountInfoCommand == null)
+                    _loadAccountInfoCommand = new AsyncRelayCommand(LoadAccountInfo);
+
+                return _loadAccountInfoCommand;
+            }
+        }
+        #endregion
+        private void Connect()
+        {
+            if (!xingApiService.Connect(XingAPIService.ServerType.Test))
+                return;
+        }
+
+        private void Disconnect()
+        {
+            xingApiService.Disconnect();
+        }
+
+        private void Login()
+        {
+            xingApiService.Login("seaeast2", "mytest01", false);
+        }
+
+        /*private async Task Login()
         {
             await Task.Run(() =>
             {
-                bool result = StockDataSource.Connect(XingAPIService.ServerType.Test);
+                xingApiService.Login("seaeast2", "mytest01", false);
+            });
+        }*/
 
-                if (!result)
-                {
-                    PrintLog("접속 실패");
-                    return;
-                }
+        // 종목 로딩하여 db에 저장하기. 
+        private async Task LoadStocks()
+        {
+            await Task.Run(() =>
+            {
+                PrintLog("종목 로딩 테스트");
+                // TODO : t8430 으로 데이터 읽기
+                
 
-                PrintLog("접속 성공");
-
-                if (!StockDataSource.IsConnected)
-                    PrintLog("접속 실패");
-
-                PrintLog("로그인 시도");
-                StockDataSource.Login("seaeast2", "mytest01", false);
-                PrintLog("로그인 성공");
             });
         }
 
-        private async Task Disconnect()
+        // 종목 로딩하여 db에 저장하기. 
+        private async Task LoadAccountInfo()
         {
             await Task.Run(() =>
             {
-                StockDataSource.Disconnect();
-                PrintLog("접속 해제 성공");
+                if (!xingApiService.CheckConnAndLoginState())
+                {
+                    return;
+                }
+
+                PrintLog("내 Account 정보 읽어 오기");
+
+                // 계좌정보 조회
+                var (res, accounts) = xingApiService.GetAccountInfos();
+                if(!res)
+                {
+                    PrintLog("계좌 정보 읽기 실패");
+                    return;
+                }
             });
         }
 

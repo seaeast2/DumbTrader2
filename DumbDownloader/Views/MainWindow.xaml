@@ -15,12 +15,14 @@
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
             <Menu KeyboardNavigation.TabNavigation="Cycle">
                 <MenuItem Header="시작">
+                    <MenuItem Header="접속" Command="{Binding Path=ConnectCommand}" />
                     <MenuItem Header="로그인" Command="{Binding Path=LoginCommand}" />
                     <MenuItem Header="접속종료" Command="{Binding Path=DisconnectCommand}" />
                     <MenuItem Header="끝내기" Command="{Binding Path=CloseCommand}" />
                 </MenuItem>
-                <MenuItem Header="옵션">
-                    <MenuItem Header="옵션" Command="{Binding Path=CloseCommand}" />
+                <MenuItem Header="종목">
+                    <MenuItem Header="계좌정보" Command="{Binding Path=LoadAccountInfoCommand}" />
+                    <MenuItem Header="종목읽기" Command="{Binding Path=LoadStocksCommand}" />
                 </MenuItem>
                 <MenuItem Header="_Help" />
             </Menu>            
