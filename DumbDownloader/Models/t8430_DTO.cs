@@ -13,7 +13,7 @@ namespace DumbDownloader.Models
         [Key]
         public string Shcode { get; set; } // 단축코드
         public string Hname { get; set; } // 종목명
-        public string Extcode { get; set; } // 확장코드        
+        public string Expcode { get; set; } // 확장코드        
         public string Gubun { get; set; } // 구분 (1 : 코스피, 2 : 코스닥)
 
         public int DataCount { get; set; } // 데이터 개수

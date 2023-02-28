@@ -22,7 +22,7 @@
                 </MenuItem>
                 <MenuItem Header="종목">
                     <MenuItem Header="계좌정보" Command="{Binding Path=LoadAccountInfoCommand}" />
-                    <MenuItem Header="종목읽기" Command="{Binding Path=LoadStocksCommand}" />
+                    <MenuItem Header="종목갱신" Command="{Binding Path=UpdateStocksCommand}" />
                 </MenuItem>
                 <MenuItem Header="_Help" />
             </Menu>            

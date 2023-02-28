@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace DumbDownloader.Models
 {
+    /*
+    db 생성 명령어
+    
+    PM> add-migration Initial -verbose
+
+    PM> update-database -verbose
+     */
     public class MyDesignTimeDbContextFactory : IDesignTimeDbContextFactory<MyDBContext>
     {
         public MyDBContext CreateDbContext(string[] args)

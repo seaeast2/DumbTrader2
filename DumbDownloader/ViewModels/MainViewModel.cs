@@ -1,17 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using DumbDownloader.Models;
+using DumbStockAPIService.Helpers;
 using DumbStockAPIService.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace DumbDownloader.ViewModels
 {
     public class MainViewModel : WorkspaceViewModel
     {
-        #region 프로퍼티들
+        
         public override string? DisplayName { get; protected set; }
 
+        // db 접근자
+        private DbContextFactory _dbContextFactory;
+
+        // 하단 메세지 출력
         private int _messageLineCounter = 0;
         private string _messageLog;
         public string MessageLog
@@ -28,9 +40,8 @@ namespace DumbDownloader.ViewModels
                 OnPropertyChanged("MessageLog");
             }
         }
-        #endregion
 
-
+        // Xing API
         private XingAPIService xingApiService;
 
 
@@ -38,14 +49,15 @@ namespace DumbDownloader.ViewModels
         private RelayCommand? _connectCommand;
         private RelayCommand? _disconnectCommand;
         private RelayCommand? _loginCommand;
-        private AsyncRelayCommand? _loadStocksCommand;
+        private AsyncRelayCommand? _updateStocksCommand;
         private AsyncRelayCommand? _loadAccountInfoCommand;
 
 
 
-        public MainViewModel(string? displayName)
+        public MainViewModel(string? displayName, DbContextFactory dbContextFactory)
         {
             DisplayName = displayName;
+            _dbContextFactory = dbContextFactory;
             _messageLog = "";
 
             xingApiService = new XingAPIService();
@@ -88,14 +100,14 @@ namespace DumbDownloader.ViewModels
             }
         }
 
-        public ICommand LoadStocksCommand
+        public ICommand UpdateStocksCommand
         {
             get
             {
-                if (_loadStocksCommand == null)
-                    _loadStocksCommand = new AsyncRelayCommand(LoadStocks);
+                if (_updateStocksCommand == null)
+                    _updateStocksCommand = new AsyncRelayCommand(LoadStocks);
 
-                return _loadStocksCommand;
+                return _updateStocksCommand;
             }
         }
 
@@ -126,24 +138,91 @@ namespace DumbDownloader.ViewModels
             xingApiService.Login("seaeast2", "mytest01", false);
         }
 
-        /*private async Task Login()
-        {
-            await Task.Run(() =>
-            {
-                xingApiService.Login("seaeast2", "mytest01", false);
-            });
-        }*/
-
         // 종목 로딩하여 db에 저장하기. 
         private async Task LoadStocks()
         {
+            List<t8430_DTO> newStocks = new List<t8430_DTO>();
+
             await Task.Run(() =>
             {
                 PrintLog("종목 로딩 테스트");
-                // TODO : t8430 으로 데이터 읽기
-                
+                // t8430 으로 데이터 읽기
 
+                // 종목정보 조회
+                XATimerQuery xATimerQuery = new XATimerQuery("t8430");
+
+                xATimerQuery.Logger = PrintLog;
+
+                xATimerQuery.SetInBlock((xaq) =>
+                {
+                    // 조회 조건 입력
+                    xaq.SetFieldData("t8430InBlock", "gubun", 0, "1"); // KOSPI 조회
+                    PrintLog("조회 조건 입력 완료");
+                });
+
+                xATimerQuery.Request(true,
+                    (tcode) =>
+                    {
+                        // 조회 결과
+                        var count = xATimerQuery.GetBlockCount("t8430OutBlock");
+                        PrintLog(String.Format("[종목 개수] {0}", count));
+                        //PrintLog(xATimerQuery.GetBlockData("t8430OutBlock"));
+
+                        //PrintLog("-------------------------------------------------------------------------------------------------------------------------------");
+                        //PrintLog(String.Format("| {0,20} | {1,10} | {2,15} | {3,10} | {4,10} | {5,10} | {6,10} | {7,15} | {8,10} | {9,10}", "종목명", "단축코드", "확장코드", "ETF구분", "상한가", "하한가", "전일가", "주문수량단위", "기준가", "구분"));
+                        //PrintLog("-------------------------------------------------------------------------------------------------------------------------------");
+
+                        // 가져온 종목 횟수 만큼 반복하면서 실제 종목 정보 가져오기
+                        for (int index = 0; index < count; ++index)
+                        {
+                            var temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "hname", index); // 종목명
+                            string hname = Convert.ToString(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "shcode", index);    // 단축코드
+                            string shcode = Convert.ToString(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "expcode", index);   // 확장코드
+                            string expcode = Convert.ToString(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "etfgubun", index);  // ETF구분
+                            string etfgubun = Convert.ToString(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "uplmtprice", index);// 상한가
+                            int uplmtprice = Convert.ToInt32(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "dnlmtprice", index);// 하한가
+                            int dnlmtprice = Convert.ToInt32(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "jnilclose", index); // 전일가
+                            int jnilclose = Convert.ToInt32(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "memedan", index);   // 주문수량단위
+                            string memedan = Convert.ToString(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "recprice", index);  // 기준가
+                            int recprice = Convert.ToInt32(temp_value);
+                            temp_value = xATimerQuery.GetFieldData("t8430OutBlock", "gubun", index);     // 구분
+                            string gubun = Convert.ToString(temp_value);
+
+                            newStocks.Add(new t8430_DTO() { Shcode = shcode, Hname = hname, Expcode = expcode, Gubun = gubun, DataCount = 0, LastUpdate = DateTime.Now});
+
+                            PrintLog(String.Format("| {0,20} | {1,10} | {2,15} | {3,10} | {4,10} | {5,10} | {6,10} | {7,15} | {8,10} | {9,10}",
+                                hname, shcode, expcode, etfgubun, uplmtprice, dnlmtprice, jnilclose, memedan, recprice, gubun));
+                        }
+                        //PrintLog("-------------------------------------------------------------------------------------------------------------------------------");
+                    });
             });
+
+            // 읽어들인 데이터를 DB에 저장. 만약 이미 있는 데이터면 무시
+            using (MyDBContext context = _dbContextFactory.CreateDbContext())
+            {
+                await Task.Delay(1000);
+
+                if (newStocks.Count > 0)
+                {
+                    foreach (t8430_DTO data in newStocks)
+                    {
+                        var found = await context.Stocks.FindAsync(data.Shcode);
+                        if (found == null)
+                            context.Stocks.Add(data);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+            }
         }
 
         // 종목 로딩하여 db에 저장하기. 

@@ -11,13 +11,21 @@ namespace DumbDownloader.Models
     public class MyDBContext : DbContext
     {
         // database 에 접근 객체
-        //public DbSet<DBTestDTO> StockDaily { get; set; }
+        private string stockTableName_;
 
         // 주식 종목
         public DbSet<t8430_DTO> Stocks { get; set; }
 
         public MyDBContext(DbContextOptions options) : base(options) { }
 
+
+        /* https://youtu.be/iNTnLqXf_Ik 참고
+         * db table 선택
+         * protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<dailystock>().ToTable($"{stockTableName}");
+        }*/
 
 
 
@@ -30,3 +38,31 @@ namespace DumbDownloader.Models
         }*/
     }
 }
+
+
+/*public async Task CreateReservation(Reservation reservation)
+{
+    // DBContext 객체를 잠깐만 사용하고 버리는 것에 주목.
+    using (ReservoomDbContext context = _dbContextFactory.CreateDbContext())
+    {
+        await Task.Delay(3000);
+
+        ReservationDTO reservationDTO = ToReservationDTO(reservation);
+
+        context.Reservations.Add(reservationDTO);
+        await context.SaveChangesAsync();
+    }
+}*/
+
+
+/*public async Task<IEnumerable<Reservation>> GetAllReservations()
+{
+    using (ReservoomDbContext context = _dbContextFactory.CreateDbContext())
+    {
+        await Task.Delay(3000);
+
+        IEnumerable<ReservationDTO> reservationDTOs = await context.Reservations.ToListAsync();
+
+        return reservationDTOs.Select(r => ToReservation(r));
+    }
+}*/

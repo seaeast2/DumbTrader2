@@ -12,24 +12,22 @@ namespace DumbDownloader
     /// </summary>
     public partial class App : Application
     {
-        public DbContextFactory? dbContextFactory { get; set; }
-
-        
+        public DbContextFactory? _dbContextFactory;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             // 데이터베이스 초기화
-            dbContextFactory = new DbContextFactory(DumbDownloader.Properties.Settings.Default.db_connection);
-            using(MyDBContext dBContext = dbContextFactory.CreateDbContext())
+            _dbContextFactory = new DbContextFactory(DumbDownloader.Properties.Settings.Default.db_connection);
+            using(MyDBContext dBContext = _dbContextFactory.CreateDbContext())
             {
                 dBContext.Database.Migrate();
             }
 
             // MainWindow, MainViewModel 설정
             MainWindow window = new MainWindow();
-            var viewModel = new MainViewModel("MainViewModel");
+            var viewModel = new MainViewModel("MainViewModel", _dbContextFactory);
 
             // When the ViewModel asks to be closed, 
             // close the window.
