@@ -219,11 +219,20 @@ namespace DumbDownloader.ViewModels
                             context.Stocks.Add(data);
                     }
 
-                    await context.SaveChangesAsync();
+                    try
+                    {
+                        await context.SaveChangesAsync();
+                    }
+                    catch (Exception ex) 
+                    {
+                        PrintLog(ex.ToString());
+                    }
                 }
 
             }
         }
+
+        
 
         // 종목 로딩하여 db에 저장하기. 
         private async Task LoadAccountInfo()
@@ -259,3 +268,16 @@ namespace DumbDownloader.ViewModels
         }
     }
 }
+
+// TODO : 왼쪽창에 종목 리스트 출력
+// TODO : 종목 리스트에 체크 버튼으로 다운로드 대상 종목 표시
+    // TODO : 체크버튼을 누르면 자동으로 데이터 다운로드
+// TODO : Filter 기능 추가. 전체 혹은 다운로드 대상 종목만 표시 되도록
+
+// TODO : 왼쪽에서 종목을 선택하면 오른쪽에 데이터베이스 데이터를 출력해줌.
+
+// TODO : runtime 에 테이블 생성
+//context.Database.ExecuteSqlRaw(""); // 직접 SQL문을 실행시켜서 실행한다.
+
+
+
