@@ -53,11 +53,16 @@
 
                 <!--등록 주식 리스트-->
                 <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
-                    
+                    <DataGrid x:Name="stockList">
+                        
+                    </DataGrid>
                 </Border>
 
                 <!--선택된 주식의 데이터베이스 최근 20개-->
                 <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource MainBorderStyle}">
+                    <DataGrid>
+                        
+                    </DataGrid>
                 </Border>
             </Grid>
 
