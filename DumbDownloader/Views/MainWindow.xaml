@@ -12,71 +12,102 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
-    
-    <DockPanel>
-        <!--메뉴바-->
-        <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
-            <Menu KeyboardNavigation.TabNavigation="Cycle">
-                <MenuItem Header="시작">
-                    <MenuItem Header="접속" Command="{Binding Path=ConnectCommand}" />
-                    <MenuItem Header="로그인" Command="{Binding Path=LoginCommand}" />
-                    <MenuItem Header="접속종료" Command="{Binding Path=DisconnectCommand}" />
-                    <MenuItem Header="끝내기" Command="{Binding Path=CloseCommand}" />
-                </MenuItem>
-                <MenuItem Header="종목">
-                    <MenuItem Header="계좌정보" Command="{Binding Path=LoadAccountInfoCommand}" />
-                    <MenuItem Header="종목갱신" Command="{Binding Path=UpdateStocksCommand}" />
-                </MenuItem>
-                <MenuItem Header="_Help" />
-            </Menu>            
-        </DockPanel>
-        
-        <!--툴바-->
-        <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
-            <ToolBarTray>
-                <ToolBar Band="1" BandIndex="1" >
-                    <Button Content="Test" />
-                </ToolBar>
-            </ToolBarTray>
-        </DockPanel>
 
-        <Grid Margin="4">
+    <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="300"/>
-                <RowDefinition Height="4"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="4" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
+            <Grid Background="Beige" Margin="20 20 20 5" >
+                <!-- TODO : 여기 컬럼 나누기 -->
                 <!-- Menu Icon -->
-                <Button Margin="20 28 0 35" Style="{StaticResource topButton}">
+                <Button Margin="20 0 0 0" Style="{StaticResource topButton}">
                     <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
                 </Button>
-
-                <!--등록 주식 리스트-->
-                <Border Grid.Row="0" Grid.Column="0" Width="170">
-                    <DataGrid x:Name="stockList">
-                        
-                    </DataGrid>
-                </Border>
-
-                <!--선택된 주식의 데이터베이스 최근 20개-->
-                <Border Grid.Row="0" Grid.Column="2" >
-                    <DataGrid>
-                        
-                    </DataGrid>
-                </Border>
             </Grid>
 
-            <Border Grid.Row="2" Grid.Column="0">
-                <TextBox x:Name="MsgLog" Text="{Binding MessageLog, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
+            <Grid Grid.Row="1" Margin="20 5 20 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Background="AliceBlue">
+                </Grid>
+
+                <Grid Grid.Column="1" Background="AntiqueWhite">
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="20 5 20 20" Background="Aqua"> 
+                
+            </Grid>
         </Grid>
-    </DockPanel>
+            <!--메뉴바-->
+            <!--<DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
+                <Menu KeyboardNavigation.TabNavigation="Cycle">
+                    <MenuItem Header="시작">
+                        <MenuItem Header="접속" Command="{Binding Path=ConnectCommand}" />
+                        <MenuItem Header="로그인" Command="{Binding Path=LoginCommand}" />
+                        <MenuItem Header="접속종료" Command="{Binding Path=DisconnectCommand}" />
+                        <MenuItem Header="끝내기" Command="{Binding Path=CloseCommand}" />
+                    </MenuItem>
+                    <MenuItem Header="종목">
+                        <MenuItem Header="계좌정보" Command="{Binding Path=LoadAccountInfoCommand}" />
+                        <MenuItem Header="종목갱신" Command="{Binding Path=UpdateStocksCommand}" />
+                    </MenuItem>
+                    <MenuItem Header="_Help" />
+                </Menu>
+            </DockPanel>-->
+
+            <!--툴바-->
+            <!--<DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
+                <ToolBarTray>
+                    <ToolBar Band="1" BandIndex="1" >
+                        <Button Content="Test" />
+                    </ToolBar>
+                </ToolBarTray>
+            </DockPanel>-->
+
+            <!--<Grid Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    --><!-- Menu Icon --><!--
+                    <Button Margin="20 28 0 35" Style="{StaticResource topButton}">
+                        <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
+                    </Button>
+
+                    --><!--등록 주식 리스트--><!--
+                    <Border Grid.Row="0" Grid.Column="0" Width="170">
+                        <DataGrid x:Name="stockList">
+
+                        </DataGrid>
+                    </Border>
+
+                    --><!--선택된 주식의 데이터베이스 최근 20개--><!--
+                    <Border Grid.Row="0" Grid.Column="2" >
+                        <DataGrid>
+
+                        </DataGrid>
+                    </Border>
+                </Grid>
+
+                <Border Grid.Row="2" Grid.Column="0">
+                    <TextBox x:Name="MsgLog" Text="{Binding MessageLog, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
+            </Grid>-->
+        
+    </Border>
 </Window>
