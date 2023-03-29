@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:DumbDownloader">
             <!--StartupUri="Views/MainWindow.xaml"> App.xaml.cs 에서 직접 생성 -->
     <Application.Resources>
-         
+        <ResourceDictionary Source="/Resources/MainResources.xaml" />
     </Application.Resources>
 </Application>

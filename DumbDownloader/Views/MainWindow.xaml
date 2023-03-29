@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:DumbDownloader"
         mc:Ignorable="d"
-        Title="DumbDownloader" Height="480" Width="640">
+        Title="DumbDownloader" Height="720 " Width="1080" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent">
     <Window.Resources>
-        <ResourceDictionary Source="/Resources/MainResources.xaml" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
     
     <DockPanel>
@@ -51,22 +54,27 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Menu Icon -->
+                <Button Margin="20 28 0 35" Style="{StaticResource topButton}">
+                    <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
+                </Button>
+
                 <!--등록 주식 리스트-->
-                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
+                <Border Grid.Row="0" Grid.Column="0" Width="170">
                     <DataGrid x:Name="stockList">
                         
                     </DataGrid>
                 </Border>
 
                 <!--선택된 주식의 데이터베이스 최근 20개-->
-                <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource MainBorderStyle}">
+                <Border Grid.Row="0" Grid.Column="2" >
                     <DataGrid>
                         
                     </DataGrid>
                 </Border>
             </Grid>
 
-            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
+            <Border Grid.Row="2" Grid.Column="0">
                 <TextBox x:Name="MsgLog" Text="{Binding MessageLog, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
         </Grid>
