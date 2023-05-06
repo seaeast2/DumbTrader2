@@ -16,21 +16,16 @@ namespace DumbDownloader.ViewModels
     public abstract class WorkspaceViewModel : ViewModelBase
     {
         #region Fields
-
         RelayCommand? _closeCommand;
-
         #endregion // Fields
 
         #region Constructor
-
         protected WorkspaceViewModel()
         {
         }
-
         #endregion // Constructor
 
         #region CloseCommand
-
         /// <summary>
         /// 호출될 때 사용자 인터페이스에서 이 작업공간을 
         /// 제거하려고 시도하는 명령을 반환합니다.
@@ -45,11 +40,9 @@ namespace DumbDownloader.ViewModels
                 return _closeCommand;
             }
         }
-
         #endregion // CloseCommand
 
         #region RequestClose [event]
-
         /// <summary>
         /// 이 작업 공간이 UI에서 제거되어야 할 때 발생합니다.
         /// </summary>
@@ -61,7 +54,6 @@ namespace DumbDownloader.ViewModels
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
-
         #endregion // RequestClose [event]
     }
 }

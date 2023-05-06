@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DumbDownloader.Models
 {
@@ -18,6 +13,17 @@ namespace DumbDownloader.Models
 
         public MyDBContext(DbContextOptions options) : base(options) { }
 
+        /*
+         Migration 방식의 DB 생성 명령어
+         패키지관리자 콘솔
+            * Properties 에서 Build Target 이 Any CPU 로 되어 있어야 제대로 동작한다.
+
+            PM> Enable-Migrations -ContextTypeName MyDBContext -MigrationsDirectory Migrations\MyDbContext
+                => Enable-Migrations 는 obsolete 되었으니 Add-Migration 을 사용하자.
+            PM> add-migration Initial
+            PM> update-database
+         */
+
 
         /* https://youtu.be/iNTnLqXf_Ik 참고
          * db table 선택
@@ -26,8 +32,6 @@ namespace DumbDownloader.Models
             //base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<dailystock>().ToTable($"{stockTableName}");
         }*/
-
-
 
         /* 
         // MySQL or Mariadb 초기화 문자열

@@ -10,6 +10,7 @@ namespace DumbDownloader.Models
 {
     /*
     db 생성 명령어
+    Properties 에서 Build Target 이 Any CPU 로 되어 있어야 제대로 동작한다.
     
     PM> add-migration Initial -verbose
 

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:DumbDownloader"
+        xmlns:utils="clr-namespace:DumbDownloader.Utils"
         mc:Ignorable="d"
         Title="DumbDownloader" Height="720 " Width="1080" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True"
@@ -16,31 +17,134 @@
     <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
-            <Grid Background="Beige" Margin="20 20 20 5" >
-                <!-- TODO : 여기 컬럼 나누기 -->
+            
+            <Grid Background="Beige" Margin="10 10 10 2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
                 <!-- Menu Icon -->
-                <Button Margin="20 0 0 0" Style="{StaticResource topButton}">
+                <Button Grid.Column="0" Margin="20 0 0 0" Style="{StaticResource topButton}">
                     <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
                 </Button>
+                
+                <!-- TODO : 여기에 Toolbar icon들 위치  -->
+
+                <!--Top Buttons-->
+                <Grid Grid.Column="2" Width="300" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource topButton}" Margin="0 0 20 0" Background="#dcdcdc" HorizontalAlignment="Right">
+                        <Icon:PackIconMaterial Kind="Cog"/>
+                    </Button>
+
+                    <Button Style="{StaticResource topButton}" Margin="0 0 55 0" HorizontalAlignment="Right">
+                        <Icon:PackIconMaterial Kind="Bell"/>
+                    </Button>
+                </Grid>
             </Grid>
 
-            <Grid Grid.Row="1" Margin="20 5 20 5">
+            <Grid Grid.Row="1" Margin="10 2 10 2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Background="AliceBlue">
+                
+                <Grid Background="LightCyan">
+                    <!--Search TextBox-->
+                    <Grid Width="290" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                        <!-- BoolToVis 는 IValueConverter 의 구현체인 BoolToVisibility 의 alias -->
+                        <!-- Binding 문법에서 ElementName 은 바인딩할 객체, Path는 앞서 명시한 객체의 멤버변수 -->
+                        <!-- 즉 아래 예에서는 (Visibility)textSearch.Text.IsEmpty 와 동일한 코드이다.  -->
+                        <TextBlock Margin="20 5" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
+                               Panel.ZIndex="1" Text="Search here..."
+                               Visibility="{Binding ElementName=textSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
+
+                        <TextBox x:Name="stockSearch" Style="{StaticResource textBoxSearch}" />
+
+                        <Icon:PackIconMaterial Kind="Magnify" Width="30" Height="30" VerticalAlignment="Center" 
+                                           Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
+                    </Grid>
                 </Grid>
 
-                <Grid Grid.Column="1" Background="AntiqueWhite">
+                <Grid Grid.Column="1" Background="LightGray">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Search TextBox-->
+                    <Grid Grid.Row="0" Width="400" HorizontalAlignment="Right" VerticalAlignment="Top" >
+                        <!-- BoolToVis 는 IValueConverter 의 구현체인 BoolToVisibility 의 alias -->
+                        <!-- Binding 문법에서 ElementName 은 바인딩할 객체, Path는 앞서 명시한 객체의 멤버변수 -->
+                        <!-- 즉 아래 예에서는 (Visibility)textSearch.Text.IsEmpty 와 동일한 코드이다.  -->
+                        <TextBlock Margin="20 5" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
+                               Panel.ZIndex="1" Text="Search here..."
+                               Visibility="{Binding ElementName=textSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
+
+                        <TextBox x:Name="dataSearch" Style="{StaticResource textBoxSearch}" />
+
+                        <Icon:PackIconMaterial Kind="Magnify" Width="30" Height="30" VerticalAlignment="Center" 
+                                           Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!--Members Datagrid-->
+                    <DataGrid x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="5" Margin="0,4,0,56" Grid.RowSpan="2">
+                        <DataGrid.Columns>
+                            <!--첫부분 체크 박스-->
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+
+                            <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Number}"/>
+
+                            <DataGridTemplateColumn Header="Member" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
+                                                <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
+                            <DataGridTextColumn Header="Position" IsReadOnly="True" Width="*" Binding="{Binding Position}"/>
+                            <DataGridTextColumn Header="Email Address" IsReadOnly="True" Width="*" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="Phone Number" IsReadOnly="True" Width="*" Binding="{Binding Phone}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}">
+                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource gridRemoveButton}" Margin="5 0 0 0">
+                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                        </DataGrid.Columns>
+                    </DataGrid>
+
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="2" Margin="20 5 20 20" Background="Aqua"> 
+            <Grid Grid.Row="2" Margin="10 2 10 10" Background="LightCoral"> 
                 
             </Grid>
         </Grid>
