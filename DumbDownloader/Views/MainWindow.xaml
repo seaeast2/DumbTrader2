@@ -52,7 +52,9 @@
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+
                 
+
                 <Grid Background="LightCyan">
                     <!--Search TextBox-->
                     <Grid Width="290" HorizontalAlignment="Center" VerticalAlignment="Top" >
@@ -76,6 +78,18 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <!--Add Button-->
+                        <Button Width="50" Margin="10 10 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource addButton}">
+                            <TextBlock Text="Test1"/>
+                        </Button>
+
+                        <!--Add Button-->
+                        <Button Width="50" Margin="10 10 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource addButton}">
+                            <TextBlock Text="Test2"/>
+                        </Button>
+                    </StackPanel>
+                    
                     <!--Search TextBox-->
                     <Grid Grid.Row="0" Width="400" HorizontalAlignment="Right" VerticalAlignment="Top" >
                         <!-- BoolToVis 는 IValueConverter 의 구현체인 BoolToVisibility 의 alias -->
