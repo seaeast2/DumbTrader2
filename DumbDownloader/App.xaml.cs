@@ -20,9 +20,9 @@ namespace DumbDownloader
 
             // 데이터베이스 초기화
             _dbContextFactory = new DbContextFactory(DumbDownloader.Properties.Settings.Default.db_connection);
-            using(MyDBContext dBContext = _dbContextFactory.CreateDbContext())
+            using(MyDBContext? dBContext = _dbContextFactory.CreateDbContext())
             {
-                dBContext.Database.Migrate();
+                dBContext?.Database.Migrate();
             }
 
             // MainWindow, MainViewModel 설정

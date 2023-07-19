@@ -21,7 +21,7 @@ namespace DumbDownloader.ViewModels
         public override string? DisplayName { get; protected set; }
 
         // db 접근자
-        private DbContextFactory _dbContextFactory;
+        private DbContextFactory? _dbContextFactory;
 
         // 하단 메세지 출력
         private int _messageLineCounter = 0;
@@ -54,7 +54,7 @@ namespace DumbDownloader.ViewModels
 
 
 
-        public MainViewModel(string? displayName, DbContextFactory dbContextFactory)
+        public MainViewModel(string? displayName, DbContextFactory? dbContextFactory)
         {
             DisplayName = displayName;
             _dbContextFactory = dbContextFactory;

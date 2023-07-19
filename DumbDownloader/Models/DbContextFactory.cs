@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DumbDownloader.Models
 {
@@ -16,9 +12,18 @@ namespace DumbDownloader.Models
             this.connectionString_ = connectionString;
         }
 
-        public MyDBContext CreateDbContext()
+        public MyDBContext? CreateDbContext()
         {
-            DbContextOptions options = new DbContextOptionsBuilder().UseMySql(connectionString_, ServerVersion.AutoDetect(connectionString_)).Options;
+            DbContextOptions options;
+            try
+            {
+                options = new DbContextOptionsBuilder().UseMySql(
+                    connectionString_, ServerVersion.AutoDetect(connectionString_)).Options;
+            }
+            catch (MySqlConnector.MySqlException)
+            {
+                return null;
+            }
 
             return new MyDBContext(options);
         }
