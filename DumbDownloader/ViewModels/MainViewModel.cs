@@ -269,6 +269,8 @@ namespace DumbDownloader.ViewModels
     }
 }
 
+// TODO : 좌상단의 햄버거 버튼 클릭시 slide 형식으로 접속 메뉴 출력
+
 // TODO : 왼쪽창에 종목 리스트 출력
 
 // TODO : 종목 리스트에 체크 버튼으로 다운로드 대상 종목 표시
